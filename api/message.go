@@ -22,6 +22,11 @@ func (api *API) getMessages(w http.ResponseWriter, r *http.Request) error {
 
 // createMessage
 func (api *API) createMessage(w http.ResponseWriter, r *http.Request) error {
+	ctx := r.Context()
+
+	log := session.GetLogger(ctx)
+	log.Info("request createMessage")
+
 	message := &models.Message{}
 
 	if err := json.NewDecoder(r.Body).Decode(&message.MessageRequest); err != nil {
@@ -44,7 +49,7 @@ func (api *API) getMessage(w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
 
 	log := session.GetLogger(ctx)
-	log.Info("Get Message")
+	log.Info("request getMessage")
 
 	message := session.GetMessage(ctx)
 
@@ -54,6 +59,9 @@ func (api *API) getMessage(w http.ResponseWriter, r *http.Request) error {
 // delete a messages
 func (api *API) deleteMessage(w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
+
+	log := session.GetLogger(ctx)
+	log.Info("request deleteMessage")
 
 	message := session.GetMessage(ctx)
 

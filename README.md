@@ -3,7 +3,6 @@
 ## ToDo:
 
 - Get Limit Messages & start date
-- Add Logs to all
 - Prod Dockerfile
 - Prometheus Endpunkt
 - Auth

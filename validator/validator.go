@@ -3,7 +3,6 @@ package validator
 import (
 	v "gopkg.in/go-playground/validator.v9"
 	"reflect"
-	"regexp"
 	"strings"
 )
 

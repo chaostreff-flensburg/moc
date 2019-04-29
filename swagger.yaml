@@ -1,0 +1,191 @@
+openapi: 3.0.1
+info:
+  title: MOC API
+  description: Message Operator Center
+  contact:
+    name: Chaostreff Flensburg e.V.
+    url: https://chaostreff-flensburg.de
+    email: mail@chaostreff-flensburg.de
+  version: 1.0.0
+servers:
+- url: https://moc.chaostreff-flensburg.de
+  description: Production Server
+paths:
+  /messages:
+    get:
+      tags:
+        - Messages
+      description: |
+        Get all messages.
+      responses:
+        '200':
+          description: Returns a message object list of messages.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+    post:
+      tags:
+        - Messages
+      security:
+        - operatorAuth: [admin]
+      description: |
+        Create a new message
+      requestBody:
+        description: Send a new message.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          description: Returns the new message object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /messages/{messageID}:
+    get:
+      tags:
+        - Messages
+      security:
+        - operatorAuth: []
+      description: |
+        Returns a message object by specific id
+      parameters:
+        - $ref: '#/components/parameters/messageID'
+      responses:
+        '200':
+          description: return a message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - Messages
+      security: 
+        - operatorAuth: [admin]
+      description: |
+        Delete a message.
+      parameters: 
+        - $ref: '#/components/parameters/messageID'
+      responses:
+        '200':
+          description: Returns the deleted message object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    Message:
+      type: object
+      required:
+        - message
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        message:
+          type: string
+          minLength: 3
+          maxLength: 160
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    Error:
+      type: object
+      required:
+        - error
+        - code
+      properties:
+        error:
+          type: string
+        code:
+          type: integer
+
+  parameters:
+    messageID:
+      name: messageID
+      in: path
+      description: id of a message
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Validation Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unprocessable:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    operatorAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Token

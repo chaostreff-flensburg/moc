@@ -45,3 +45,15 @@ func GetMessage(ctx context.Context) *models.Message {
 
 	return message.(*models.Message)
 }
+
+// SetOperator set operatorflag to context
+func SetOperator(ctx context.Context) context.Context {
+	ctx = context.WithValue(ctx, "isOperator", true)
+
+	return ctx
+}
+
+// IsOperator by context
+func IsOperator(ctx context.Context) bool {
+	return !(ctx.Value("isOperator") == nil)
+}

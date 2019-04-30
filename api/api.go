@@ -37,13 +37,16 @@ func NewAPI(db *gorm.DB, config *config.Config) *API {
 	r.Use(router.Recoverer)
 	r.Use(api.withLogger)
 
+	r.Use(api.withToken)
+
 	log.Info("initialize Routes...")
 
 	r.Route("/messages", func(r *router.Router) {
 		r.Get("/", api.getMessages)
-		r.Post("/", api.createMessage)
+		r.With(authRequired).Post("/", api.createMessage)
 
 		r.Route("/{messageID}", func(r *router.Router) {
+			r.Use(authRequired)
 			r.Use(api.withMessageID)
 
 			r.Get("/", api.getMessage)

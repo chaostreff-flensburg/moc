@@ -1,8 +1,13 @@
 # moc
 
+Message Operation Center
+
+## Swagger API Documentation
+
+- Use `swagger.yaml`
+
 ## ToDo:
 
 - Get Limit Messages & start date
 - Prometheus Endpunkt
-- Auth
-- https://blog.antoine-augusti.fr/2015/11/continuous-integration-and-code-coverage-in-golang/
+- Auth CHECK IF WORKS! -> ENV VARS/CONFIG

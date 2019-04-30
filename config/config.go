@@ -10,6 +10,8 @@ type Config struct {
 		Driver string `env:"DATABASE_DRIVER"`
 		Path   string `env:"DATABASE_PATH"`
 	}
+
+	OperatorToken string `env:"OPERATOR_TOKEN"`
 }
 
 // ReadConfig from env

@@ -6,8 +6,13 @@ Message Operation Center
 
 - Use `swagger.yaml`
 
+## Usage
+
+```
+moc --migrate --seed
+```
+
 ## ToDo:
 
 - Get Limit Messages & start date
 - Prometheus Endpunkt
-- Auth CHECK IF WORKS! -> ENV VARS/CONFIG

@@ -1,6 +1,7 @@
 version: '3'
 services:
   moc:
+    image: ctfl/moc
     build: .
     volumes:
     - .:/src

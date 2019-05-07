@@ -1,0 +1,16 @@
+version: '3'
+services:
+  moc:
+    image: ctfl/moc
+    env_file:
+      - .env
+    ports:
+      - 8080:80
+  moc-irc:
+  	image: ctfl/moc-irc
+    env_file:
+      - .env
+  moc-telegram:
+  	image: ctfl/moc-telegram
+    env_file:
+      - .env
